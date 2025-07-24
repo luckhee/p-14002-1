@@ -30,12 +30,20 @@ export default function ClientLayout({
             글 목록
           </Link>
           {!isLogin && (
-            <Link
-              href="/members/login"
-              className="p-2 rounded hover:bg-gray-100"
-            >
-              로그인
-            </Link>
+            <>
+              <Link
+                href="/members/login"
+                className="p-2 rounded hover:bg-gray-100"
+              >
+                로그인
+              </Link>
+              <a
+                href="http://localhost:8080/oauth2/authorization/kakao"
+                className="p-2 rounded hover:bg-gray-100"
+              >
+                카카오 로그인
+              </a>
+            </>
           )}
           {isLogin && (
             <button onClick={logout} className="p-2 rounded hover:bg-gray-100">
