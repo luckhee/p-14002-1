@@ -1,6 +1,8 @@
 spring:
   application:
     name: back
+  config:
+    import: optional:file:.env[.properties]
   profiles:
     active: dev
   output:
@@ -26,7 +28,7 @@ spring:
       client:
         registration:
           kakao:
-            clientId: ON_SECRET
+            clientId: ${SPRING__SECURITY__OAUTH2__CLIENT__REGISTRATION__KAKAO__CLIENT_ID}
             scope: profile_nickname, profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
@@ -47,6 +49,6 @@ logging:
     com.back: DEBUG
 custom:
   jwt:
-    secretKey: abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789abcdefghijklmnopqrstuvwxyz0123456789
+    secretKey: ${CUSTOM__JWT__SECRET_KEY}
   accessToken:
     expirationSeconds: "#{60*20}"
