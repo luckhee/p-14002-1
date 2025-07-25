@@ -20,6 +20,7 @@ export default function ClientLayout({
   const redirectUrl = encodeURIComponent(`${frontendBaseUrl}/members/me`);
 
   const kakaoLoginUrl = `${apiBaseUrl}/oauth2/authorization/kakao?redirectUrl=${redirectUrl}`;
+  const googleLoginUrl = `${apiBaseUrl}/oauth2/authorization/google?redirectUrl=${redirectUrl}`;
 
   const logout = () => {
     _logout(() => router.replace("/"));
@@ -45,6 +46,12 @@ export default function ClientLayout({
               </Link>
               <a href={kakaoLoginUrl} className="p-2 rounded hover:bg-gray-100">
                 카카오 로그인
+              </a>
+              <a
+                href={googleLoginUrl}
+                className="p-2 rounded hover:bg-gray-100"
+              >
+                구글 로그인
               </a>
             </>
           )}
