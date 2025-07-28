@@ -21,6 +21,7 @@ export default function ClientLayout({
 
   const kakaoLoginUrl = `${apiBaseUrl}/oauth2/authorization/kakao?redirectUrl=${redirectUrl}`;
   const googleLoginUrl = `${apiBaseUrl}/oauth2/authorization/google?redirectUrl=${redirectUrl}`;
+  const naverLoginUrl = `${apiBaseUrl}/oauth2/authorization/naver?redirectUrl=${redirectUrl}`;
 
   const logout = () => {
     _logout(() => router.replace("/"));
@@ -52,6 +53,9 @@ export default function ClientLayout({
                 className="p-2 rounded hover:bg-gray-100"
               >
                 구글 로그인
+              </a>
+              <a href={naverLoginUrl} className="p-2 rounded hover:bg-gray-100">
+                네이버 로그인
               </a>
             </>
           )}
