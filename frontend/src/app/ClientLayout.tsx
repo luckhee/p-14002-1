@@ -19,9 +19,8 @@ export default function ClientLayout({
   const frontendBaseUrl = process.env.NEXT_PUBLIC_FRONTEND_BASE_URL as string;
   const redirectUrl = encodeURIComponent(`${frontendBaseUrl}/members/me`);
 
-  const kakaoLoginUrl = `${apiBaseUrl}/oauth2/authorization/kakao?redirectUrl=${redirectUrl}`;
-  const googleLoginUrl = `${apiBaseUrl}/oauth2/authorization/google?redirectUrl=${redirectUrl}`;
-  const naverLoginUrl = `${apiBaseUrl}/oauth2/authorization/naver?redirectUrl=${redirectUrl}`;
+  const loginUrl = (providerTypeCode: string) =>
+    `${apiBaseUrl}/oauth2/authorization/${providerTypeCode}?redirectUrl=${redirectUrl}`;
 
   const logout = () => {
     _logout(() => router.replace("/"));
@@ -45,16 +44,22 @@ export default function ClientLayout({
               >
                 로그인
               </Link>
-              <a href={kakaoLoginUrl} className="p-2 rounded hover:bg-gray-100">
+              <a
+                href={loginUrl("kakao")}
+                className="p-2 rounded hover:bg-gray-100"
+              >
                 카카오 로그인
               </a>
               <a
-                href={googleLoginUrl}
+                href={loginUrl("google")}
                 className="p-2 rounded hover:bg-gray-100"
               >
                 구글 로그인
               </a>
-              <a href={naverLoginUrl} className="p-2 rounded hover:bg-gray-100">
+              <a
+                href={loginUrl("naver")}
+                className="p-2 rounded hover:bg-gray-100"
+              >
                 네이버 로그인
               </a>
             </>
