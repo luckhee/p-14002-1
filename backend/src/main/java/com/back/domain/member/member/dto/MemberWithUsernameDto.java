@@ -11,15 +11,17 @@ public record MemberWithUsernameDto(
         @NonNull LocalDateTime modifyDate,
         @NonNull String name,
         @NonNull String username,
-        @NonNull boolean isAdmin
+        @NonNull boolean isAdmin,
+        @NonNull String profileImageUrl
 ) {
-    public MemberWithUsernameDto(int id, LocalDateTime createDate, LocalDateTime modifyDate, String name, String username, boolean isAdmin) {
+    public MemberWithUsernameDto(int id, LocalDateTime createDate, LocalDateTime modifyDate, String name, String username, boolean isAdmin, String profileImageUrl) {
         this.id = id;
         this.createDate = createDate;
         this.modifyDate = modifyDate;
         this.name = name;
         this.username = username;
         this.isAdmin = isAdmin;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public MemberWithUsernameDto(Member member) {
@@ -29,7 +31,8 @@ public record MemberWithUsernameDto(
                 member.getModifyDate(),
                 member.getName(),
                 member.getUsername(),
-                member.isAdmin()
+                member.isAdmin(),
+                member.getProfileImgUrlOrDefault()
         );
     }
 }

@@ -78,4 +78,11 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
         this.profileImgUrl = profileImgUrl;
     }
+
+    public String getProfileImgUrlOrDefault() {
+        if (profileImgUrl == null)
+            return "https://placehold.co/600x600?text=U_U";
+
+        return profileImgUrl;
+    }
 }
