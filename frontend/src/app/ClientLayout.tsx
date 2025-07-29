@@ -65,13 +65,25 @@ export default function ClientLayout({
             </>
           )}
           {isLogin && (
-            <button onClick={logout} className="p-2 rounded hover:bg-gray-100">
+            <button
+              onClick={logout}
+              className="p-2 rounded hover:bg-gray-100 flex"
+            >
               로그아웃
             </button>
           )}
           {isLogin && (
-            <Link href="/members/me" className="p-2 rounded hover:bg-gray-100">
-              {loginMember.name}님의 정보
+            <Link
+              href="/members/me"
+              className="p-2 rounded hover:bg-gray-100 flex gap-2"
+            >
+              <span>{loginMember.name}님의 정보</span>
+              <img
+                src={loginMember.profileImageUrl}
+                width="30"
+                alt=""
+                className="rounded-full object-cover aspect-[1/1]"
+              />
             </Link>
           )}
         </nav>
