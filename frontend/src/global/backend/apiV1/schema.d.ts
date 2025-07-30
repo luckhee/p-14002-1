@@ -269,8 +269,8 @@ export interface components {
       /** Format: date-time */
       modifyDate: string;
       name: string;
-      isAdmin: boolean;
       profileImageUrl: string;
+      isAdmin: boolean;
     };
     RsDataMemberDto: {
       resultCode: string;
@@ -312,9 +312,9 @@ export interface components {
       /** Format: date-time */
       modifyDate: string;
       name: string;
+      profileImageUrl: string;
       username: string;
       isAdmin: boolean;
-      profileImageUrl: string;
     };
     AdmPostCountResBody: {
       /** Format: int64 */
