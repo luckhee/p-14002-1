@@ -1,25 +1,25 @@
 package com.back.domain.post.post.dto;
 
 import com.back.domain.post.post.entity.Post;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-public record PostDto(
-        int id,
-        LocalDateTime createDate,
-        LocalDateTime modifyDate,
-        int authorId,
-        String authorName,
-        String title
-) {
+@Getter
+public class PostDto {
+    private final int id;
+    private final LocalDateTime createDate;
+    private final LocalDateTime modifyDate;
+    private final int authorId;
+    private final String authorName;
+    private final String title;
+
     public PostDto(Post post) {
-        this(
-                post.getId(),
-                post.getCreateDate(),
-                post.getModifyDate(),
-                post.getAuthor().getId(),
-                post.getAuthor().getName(),
-                post.getTitle()
-        );
+        id = post.getId();
+        createDate = post.getCreateDate();
+        modifyDate = post.getModifyDate();
+        authorId = post.getAuthor().getId();
+        authorName = post.getAuthor().getName();
+        title = post.getTitle();
     }
 }

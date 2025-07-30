@@ -1,27 +1,14 @@
 package com.back.domain.post.post.dto;
 
 import com.back.domain.post.post.entity.Post;
+import lombok.Getter;
 
-import java.time.LocalDateTime;
+@Getter
+public class PostWithContentDto extends PostDto {
+    private final String content;
 
-public record PostWithContentDto(
-        int id,
-        LocalDateTime createDate,
-        LocalDateTime modifyDate,
-        int authorId,
-        String authorName,
-        String title,
-        String content
-) {
     public PostWithContentDto(Post post) {
-        this(
-                post.getId(),
-                post.getCreateDate(),
-                post.getModifyDate(),
-                post.getAuthor().getId(),
-                post.getAuthor().getName(),
-                post.getTitle(),
-                post.getContent()
-        );
+        super(post);
+        this.content = post.getContent();
     }
 }

@@ -1,34 +1,27 @@
 package com.back.domain.member.member.dto;
 
 import com.back.domain.member.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-public record MemberDto(
-        int id,
-        LocalDateTime createDate,
-        LocalDateTime modifyDate,
-        String name,
-        boolean isAdmin,
-        String profileImageUrl
-) {
-    public MemberDto(int id, LocalDateTime createDate, LocalDateTime modifyDate, String name, boolean isAdmin, String profileImageUrl) {
-        this.id = id;
-        this.createDate = createDate;
-        this.modifyDate = modifyDate;
-        this.name = name;
-        this.isAdmin = isAdmin;
-        this.profileImageUrl = profileImageUrl;
-    }
+@Getter
+public class MemberDto {
+    private final int id;
+    private final LocalDateTime createDate;
+    private final LocalDateTime modifyDate;
+    private final String name;
+    @JsonProperty("isAdmin")
+    private final boolean admin;
+    private final String profileImageUrl;
 
     public MemberDto(Member member) {
-        this(
-                member.getId(),
-                member.getCreateDate(),
-                member.getModifyDate(),
-                member.getName(),
-                member.isAdmin(),
-                member.getProfileImgUrlOrDefault()
-        );
+        id = member.getId();
+        createDate = member.getCreateDate();
+        modifyDate = member.getModifyDate();
+        name = member.getName();
+        admin = member.isAdmin();
+        profileImageUrl = member.getProfileImgUrlOrDefault();
     }
 }
