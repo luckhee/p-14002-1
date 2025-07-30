@@ -73,7 +73,7 @@ public class MemberService {
     public RsData<Member> modifyOrJoin(String username, String password, String nickname, String profileImgUrl) {
         Member member = findByUsername(username).orElse(null);
 
-        if ( member == null ) {
+        if (member == null) {
             member = join(username, password, nickname, profileImgUrl);
             return new RsData<>("201-1", "회원가입이 완료되었습니다.", member);
         }
