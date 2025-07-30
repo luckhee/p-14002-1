@@ -24,7 +24,7 @@ public class CustomOAuth2LoginSuccessHandler implements AuthenticationSuccessHan
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 일단은 현재 소셜 로그인 한 사람이 3번 회원이라고 가정
-        Member actor = rq.getActor();
+        Member actor = rq.getActorFromDb();
 
         String accessToken = memberService.genAccessToken(actor);
 

@@ -36,13 +36,11 @@ public class CustomAuthenticationFilter extends OncePerRequestFilter {
             work(request, response, filterChain);
         } catch (ServiceException e) {
             RsData<Void> rsData = e.getRsData();
-            response.setContentType("application/json");
+            response.setContentType("application/json;charset=UTF-8");
             response.setStatus(rsData.statusCode());
             response.getWriter().write(
                     Ut.json.toString(rsData)
             );
-        } catch (Exception e) {
-            throw e;
         }
     }
 

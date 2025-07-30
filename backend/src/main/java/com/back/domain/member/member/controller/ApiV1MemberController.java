@@ -127,9 +127,7 @@ public class ApiV1MemberController {
     @Transactional(readOnly = true)
     @Operation(summary = "내 정보")
     public MemberWithUsernameDto me() {
-        Member actor = memberService
-                .findById(rq.getActor().getId())
-                .get();
+        Member actor = rq.getActorFromDb();
 
         return new MemberWithUsernameDto(actor);
     }
