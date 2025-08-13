@@ -25,10 +25,10 @@ public class Member extends BaseEntity {
     private String apiKey;
     private String profileImgUrl;
 
-    public Member(int id, String username, String name) {
+    public Member(int id, String username, String nickname) {
         setId(id);
         this.username = username;
-        setName(name);
+        this.nickname = nickname;
     }
 
     public Member(String username, String password, String nickname, String profileImgUrl) {
@@ -41,10 +41,6 @@ public class Member extends BaseEntity {
 
     public String getName() {
         return nickname;
-    }
-
-    public void setName(String name) {
-        this.nickname = name;
     }
 
     public void modifyApiKey(String apiKey) {
