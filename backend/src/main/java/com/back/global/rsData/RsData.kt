@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 
 @JvmRecord
 data class RsData<T>(
-    val resultCode: String?,
+    val resultCode: String,
     @field:JsonIgnore val statusCode: Int,
-    val msg: String?,
-    val data: T?
+    val msg: String,
+    val data: T
 ) {
     @JvmOverloads
-    constructor(resultCode: String, msg: String?, data: T? = null) : this(
+    constructor(resultCode: String, msg: String, data: T = null as T) : this(
         resultCode,
         resultCode.split("-", limit = 2).toTypedArray()[0].toInt(),
         msg,
