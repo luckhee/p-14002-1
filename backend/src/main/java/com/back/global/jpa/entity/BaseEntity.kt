@@ -6,7 +6,7 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.LocalDateTime
 
-@MappedSuperclass // 엔티티의 부모 클래스에는 이걸 달아야 한다.
+@MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
 abstract class BaseEntity {
 
@@ -16,11 +16,13 @@ abstract class BaseEntity {
 
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    open val createDate: LocalDateTime = LocalDateTime.now()
+    open var createDate: LocalDateTime = LocalDateTime.now()
+        protected set
 
     @LastModifiedDate
     @Column(nullable = false)
-    open val modifyDate: LocalDateTime = LocalDateTime.now()
+    open var modifyDate: LocalDateTime = LocalDateTime.now()
+        protected set
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

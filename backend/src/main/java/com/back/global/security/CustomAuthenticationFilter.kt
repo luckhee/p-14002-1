@@ -26,8 +26,10 @@ class CustomAuthenticationFilter(
     companion object {
         private val PUBLIC_APIS = setOf(
             "/api/v1/members/login",
-            "/api/v1/members/logout",
-            "/api/v1/members/join"
+            "/api/v1/members/logout"
+        )
+        private val PUBLIC_API_PATTERNS = mapOf(
+            Regex("/api/v\\d+/members") to setOf("POST") // 회원가입
         )
     }
 
@@ -60,7 +62,15 @@ class CustomAuthenticationFilter(
         }
 
         // 인증, 인가가 필요없는 API 요청이라면 패스
-        if (PUBLIC_APIS.contains(request.requestURI)) {
+        if (PUBLIC_APIS.contains(request.requestURI) ||
+            isPublicApiPattern(request.requestURI, request.method)) {
+            filterChain.doFilter(request, response)
+            return
+        }
+
+        // 이미 인증된 사용자가 있다면 (예: @WithUserDetails로 설정된 경우) 패스
+        val existingAuth = SecurityContextHolder.getContext().authentication
+        if (existingAuth != null && existingAuth.isAuthenticated && existingAuth.principal != "anonymousUser") {
             filterChain.doFilter(request, response)
             return
         }
@@ -88,10 +98,10 @@ class CustomAuthenticationFilter(
                 val name = payload["name"] as String
                 Member(id, username, name).also { isAccessTokenValid = true }
             } ?: memberService.findByApiKey(apiKey)
-                .orElseThrow { ServiceException("401-3", "API 키가 유효하지 않습니다.") }
+            ?: throw ServiceException("401-3", "API 키가 유효하지 않습니다.")
         } else {
             memberService.findByApiKey(apiKey)
-                .orElseThrow { ServiceException("401-3", "API 키가 유효하지 않습니다.") }
+                ?: throw ServiceException("401-3", "API 키가 유효하지 않습니다.")
         }
 
 
@@ -119,6 +129,12 @@ class CustomAuthenticationFilter(
         SecurityContextHolder.getContext().authentication = authentication
 
         filterChain.doFilter(request, response)
+    }
+
+    private fun isPublicApiPattern(uri: String, method: String): Boolean {
+        return PUBLIC_API_PATTERNS.any { (pattern, allowedMethods) ->
+            pattern.matches(uri) && allowedMethods.contains(method)
+        }
     }
 
     private fun extractCredentials(): Pair<String, String> {

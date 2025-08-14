@@ -22,7 +22,9 @@ class Rq(
             ?.principal
             ?.let {
                 if (it is SecurityUser) {
-                    Member(it.id, it.username, it.nickname)
+                    // SecurityUser에서 username을 사용해서 실제 Member를 찾아옴
+                    memberService.findByUsername(it.username)
+                        ?: throw  IllegalStateException("인증된 사용자를 찾을 수 없습니다: ${it.username}")
                 } else {
                     null
                 }
@@ -30,7 +32,7 @@ class Rq(
             ?: throw IllegalStateException("인증된 사용자가 없습니다.")
 
     val actorFromDb: Member
-        get() = memberService.findById(actor.id).get()
+        get() = actor // 이제 actor 자체가 DB에서 가져온 Member이므로
 
     fun getHeader(name: String, defaultValue: String): String {
         return req.getHeader(name) ?: defaultValue
