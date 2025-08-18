@@ -2,6 +2,7 @@ package com.back.domain.post.post.controller
 
 import com.back.domain.member.member.service.MemberService
 import com.back.domain.post.post.service.PostService
+import com.back.standard.util.estenstions.getOrThrow
 import jakarta.servlet.http.Cookie
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.DisplayName
@@ -45,7 +46,7 @@ class ApiV1PostControllerTest(
                 )
         ).andDo(MockMvcResultHandlers.print())
 
-        val post = postService.findLatest()!!
+        val post = postService.findLatest().getOrThrow()
 
         resultActions
             .andExpect(MockMvcResultMatchers.handler().handlerType(ApiV1PostController::class.java))
@@ -70,7 +71,7 @@ class ApiV1PostControllerTest(
     @Test
     @DisplayName("글 쓰기, with wrong apiKey, with valid accessToken")
     fun t14() {
-        val actor = memberService.findByUsername("user1")!!
+        val actor = memberService.findByUsername("user1").getOrThrow()
         val actorAccessToken = memberService.genAccessToken(actor)
 
         val resultActions = mvc.perform(
@@ -96,7 +97,7 @@ class ApiV1PostControllerTest(
     @Test
     @DisplayName("글 쓰기, with wrong apiKey cookie, with valid accessToken cookie")
     fun t15() {
-        val actor = memberService.findByUsername("user1")!!
+        val actor = memberService.findByUsername("user1").getOrThrow()
         val actorAccessToken = memberService.genAccessToken(actor)
 
         val resultActions = mvc.perform(

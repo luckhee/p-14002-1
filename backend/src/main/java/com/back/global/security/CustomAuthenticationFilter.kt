@@ -106,13 +106,13 @@ class CustomAuthenticationFilter(
 
 
         if (isAccessTokenExists && !isAccessTokenValid) {
-            val actorAccessToken = memberService.genAccessToken(member!!)
+            val actorAccessToken = memberService.genAccessToken(member)
             rq.setCookie("accessToken", actorAccessToken)
             rq.setHeader("Authorization", actorAccessToken)
         }
 
         val user: UserDetails = SecurityUser(
-            member!!.id,
+            member.id,
             member.username,
             "",
             member.name,

@@ -1,6 +1,7 @@
 package com.back.domain.member.member.controller
 
 import com.back.domain.member.member.service.MemberService
+import com.back.standard.util.estenstions.getOrThrow
 import jakarta.servlet.http.Cookie
 import org.assertj.core.api.Assertions
 import org.hamcrest.Matchers
@@ -45,7 +46,7 @@ class ApiV1MemberControllerTest(
                 )
         ).andDo(MockMvcResultHandlers.print())
 
-        val member = memberService.findByUsername("usernew")!!
+        val member = memberService.findByUsername("usernew").getOrThrow()
 
         resultActions
             .andExpect(MockMvcResultMatchers.handler().handlerType(ApiV1MemberController::class.java))
@@ -86,7 +87,7 @@ class ApiV1MemberControllerTest(
                 )
         ).andDo(MockMvcResultHandlers.print())
 
-        val member = memberService.findByUsername("user1")!!
+        val member = memberService.findByUsername("user1").getOrThrow()
 
         resultActions
             .andExpect(MockMvcResultMatchers.handler().handlerType(ApiV1MemberController::class.java))
@@ -113,12 +114,12 @@ class ApiV1MemberControllerTest(
         resultActions.andExpect(
             ResultMatcher { result ->
                 val response = result.response
-                val apiKeyCookie = response.getCookie("apiKey")!!
+                val apiKeyCookie = response.getCookie("apiKey").getOrThrow()
                 Assertions.assertThat(apiKeyCookie.value).isEqualTo(member.apiKey)
                 Assertions.assertThat(apiKeyCookie.path).isEqualTo("/")
                 Assertions.assertThat(apiKeyCookie.getAttribute("HttpOnly")).isEqualTo("true")
 
-                val accessTokenCookie = response.getCookie("accessToken")!!
+                val accessTokenCookie = response.getCookie("accessToken").getOrThrow()
                 Assertions.assertThat(accessTokenCookie.value).isNotBlank()
                 Assertions.assertThat(accessTokenCookie.path).isEqualTo("/")
                 Assertions.assertThat(accessTokenCookie.getAttribute("HttpOnly")).isEqualTo("true")
@@ -134,7 +135,7 @@ class ApiV1MemberControllerTest(
             MockMvcRequestBuilders.get("/api/v1/members/me")
         ).andDo(MockMvcResultHandlers.print())
 
-        val member = memberService.findByUsername("user1")!!
+        val member = memberService.findByUsername("user1").getOrThrow()
 
         resultActions
             .andExpect(MockMvcResultMatchers.handler().handlerType(ApiV1MemberController::class.java))
@@ -157,7 +158,7 @@ class ApiV1MemberControllerTest(
     @Test
     @DisplayName("내 정보, with apiKey Cookie")
     fun t4() {
-        val actor = memberService.findByUsername("user1")!!
+        val actor = memberService.findByUsername("user1").getOrThrow()
         val actorApiKey = actor.apiKey
 
         val resultActions = mvc.perform(
@@ -187,13 +188,13 @@ class ApiV1MemberControllerTest(
             .andExpect(
                 ResultMatcher { result ->
                     val response = result.response
-                    val apiKeyCookie = response.getCookie("apiKey")!!
+                    val apiKeyCookie = response.getCookie("apiKey").getOrThrow()
                     Assertions.assertThat(apiKeyCookie.value).isEmpty()
                     Assertions.assertThat(apiKeyCookie.maxAge).isEqualTo(0)
                     Assertions.assertThat(apiKeyCookie.path).isEqualTo("/")
                     Assertions.assertThat(apiKeyCookie.isHttpOnly).isTrue()
 
-                    val accessTokenCookie = response.getCookie("accessToken")!!
+                    val accessTokenCookie = response.getCookie("accessToken").getOrThrow()
                     Assertions.assertThat(accessTokenCookie.value).isEmpty()
                     Assertions.assertThat(accessTokenCookie.maxAge).isEqualTo(0)
                     Assertions.assertThat(accessTokenCookie.path).isEqualTo("/")
@@ -205,7 +206,7 @@ class ApiV1MemberControllerTest(
     @Test
     @DisplayName("엑세스 토큰이 만료되었거나 유효하지 않다면 apiKey를 통해서 재발급")
     fun t7() {
-        val actor = memberService.findByUsername("user1")!!
+        val actor = memberService.findByUsername("user1").getOrThrow()
         val actorApiKey = actor.apiKey
 
         val resultActions = mvc.perform(
@@ -221,7 +222,7 @@ class ApiV1MemberControllerTest(
         resultActions.andExpect(
             ResultMatcher { result ->
                 val response = result.response
-                val accessTokenCookie = response.getCookie("accessToken")!!
+                val accessTokenCookie = response.getCookie("accessToken").getOrThrow()
                 Assertions.assertThat(accessTokenCookie.value).isNotBlank()
                 Assertions.assertThat(accessTokenCookie.path).isEqualTo("/")
                 Assertions.assertThat(accessTokenCookie.getAttribute("HttpOnly")).isEqualTo("true")

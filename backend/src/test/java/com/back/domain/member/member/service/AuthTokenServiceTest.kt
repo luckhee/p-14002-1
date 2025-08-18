@@ -1,6 +1,7 @@
 package com.back.domain.member.member.service
 
 import com.back.standard.util.Ut
+import com.back.standard.util.estenstions.getOrThrow
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.assertj.core.api.Assertions
@@ -92,7 +93,7 @@ class AuthTokenServiceTest(
     @Test
     @DisplayName("authTokenService.genAccessToken(member);")
     fun t4() {
-        val memberUser1 = memberService.findByUsername("user1")!!
+        val memberUser1 = memberService.findByUsername("user1").getOrThrow()
 
         val accessToken = authTokenService.genAccessToken(memberUser1)
 

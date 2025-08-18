@@ -2,6 +2,7 @@ package com.back.domain.post.postComment.controller
 
 import com.back.domain.member.member.service.MemberService
 import com.back.domain.post.post.service.PostService
+import com.back.standard.util.estenstions.getOrThrow
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
@@ -37,7 +38,7 @@ class ApiV1PostCommentControllerTest(
             MockMvcRequestBuilders.get("/api/v1/posts/$postId/comments/$id")
         ).andDo(MockMvcResultHandlers.print())
 
-        val post = postService.findById(postId)!!
+        val post = postService.findById(postId).getOrThrow()
         val postComment = post.findCommentById(id) ?: throw NoSuchElementException("댓글을 찾을 수 없습니다.")
 
         resultActions
@@ -68,7 +69,7 @@ class ApiV1PostCommentControllerTest(
             MockMvcRequestBuilders.get("/api/v1/posts/$postId/comments")
         ).andDo(MockMvcResultHandlers.print())
 
-        val post = postService.findById(postId)!!
+        val post = postService.findById(postId).getOrThrow()
         val comments = post.comments
 
         resultActions
@@ -120,7 +121,7 @@ class ApiV1PostCommentControllerTest(
         val postId = 1
         val id = 1
 
-        val actor = memberService.findByUsername("user3")!!
+        val actor = memberService.findByUsername("user3").getOrThrow()
         val actorApiKey = actor.apiKey
 
         val resultActions = mvc.perform(
@@ -169,7 +170,7 @@ class ApiV1PostCommentControllerTest(
         val postId = 1
         val id = 1
 
-        val actor = memberService.findByUsername("user3")!!
+        val actor = memberService.findByUsername("user3").getOrThrow()
         val actorApiKey = actor.apiKey
 
         val resultActions = mvc.perform(
@@ -211,7 +212,7 @@ class ApiV1PostCommentControllerTest(
                 )
         ).andDo(MockMvcResultHandlers.print())
 
-        val post = postService.findById(postId)!!
+        val post = postService.findById(postId).getOrThrow()
         val postComment = post.comments.last()
 
         resultActions

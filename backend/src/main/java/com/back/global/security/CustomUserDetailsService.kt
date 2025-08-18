@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 @Service
 class CustomUserDetailsService(private val memberService: MemberService) : UserDetailsService {
     override fun loadUserByUsername(username: String): UserDetails {
-        val member = memberService!!.findByUsername(username)
+        val member = memberService.findByUsername(username)
             ?: throw UsernameNotFoundException("사용자를 찾을 수 없습니다.")
 
         return SecurityUser(
