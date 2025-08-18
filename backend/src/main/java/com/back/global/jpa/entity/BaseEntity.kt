@@ -23,16 +23,4 @@ abstract class BaseEntity {
     @Column(nullable = false)
     open var modifyDate: LocalDateTime = LocalDateTime.now()
         protected set
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other == null || this::class != other::class) return false
-
-        other as BaseEntity
-        return id == other.id
-    }
-
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
 }

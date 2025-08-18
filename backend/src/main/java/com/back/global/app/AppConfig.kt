@@ -23,19 +23,15 @@ class AppConfig(environment: Environment, objectMapper: ObjectMapper) {
     companion object {
         private lateinit var environment: Environment
 
-        @JvmStatic
         val isDev: Boolean
             get() = environment.matchesProfiles("dev")
 
-        @JvmStatic
         val isTest: Boolean
             get() = !environment.matchesProfiles("test")
 
-        @JvmStatic
         val isProd: Boolean
             get() = environment.matchesProfiles("prod")
 
-        @JvmStatic
         val isNotProd: Boolean
             get() = !isProd
     }

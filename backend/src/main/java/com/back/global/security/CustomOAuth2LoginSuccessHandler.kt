@@ -2,6 +2,7 @@ package com.back.global.security
 
 import com.back.domain.member.member.service.MemberService
 import com.back.global.rq.Rq
+import com.back.standard.util.estenstions.base64Decode
 import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -9,8 +10,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.stereotype.Component
 import java.io.IOException
-import java.nio.charset.StandardCharsets
-import java.util.*
 
 @Component
 class CustomOAuth2LoginSuccessHandler(
@@ -40,10 +39,7 @@ class CustomOAuth2LoginSuccessHandler(
 
         stateParam.let { state ->
             // 1️⃣ Base64 URL-safe 디코딩
-            val decodedStateParam = String(
-                Base64.getUrlDecoder().decode(state),
-                StandardCharsets.UTF_8
-            )
+            val decodedStateParam = state.base64Decode()
 
             // 2️⃣ '#' 앞은 redirectUrl, 뒤는 originState
             redirectUrl = decodedStateParam.split("#", limit = 2)[0]
